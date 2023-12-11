@@ -1,12 +1,14 @@
 const { test, expect } = require('@playwright/test')
 
 
+
 test('Verify locators methods assertions in playwright', async ({ page }) => {
     await page.goto('https://webdriveruniversity.com/Contact-Us/contactus.html')
 
     //find singal element 
     let fstNameFiled = await page.$('input[name="first_name"]')
     await expect(fstNameFiled).not.toBeNull()
+    await expect(fstNameFiled).toBeVisible()
 
     let fstNameFiled1 = await page.locator('input[name="first_name"]')
     await expect(fstNameFiled1).toBeVisible()
