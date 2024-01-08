@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test')
 const assert = require('assert')
+const exp = require('constants')
 test('Verify the dropdown functionality',async({page})=>{
     await page.goto('https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html')
     await page.selectOption('#dropdowm-menu-1','Python')
@@ -16,7 +17,7 @@ test('Verify the dropdown functionality',async({page})=>{
     console.log(text2)
 })
 
-test.only('Verify checkBox functionality in playwright',async({page})=>{
+test('Verify checkBox functionality in playwright',async({page})=>{
     await page.goto('https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html')
     await page.check('input[value="option-2"]')
     await page.uncheck('input[value="option-3"]')
@@ -27,4 +28,16 @@ test.only('Verify checkBox functionality in playwright',async({page})=>{
     expect(await page.locator('input[value="option-4"]')).not.toBeChecked()
     await page.locator('input[value="option-4"]').check()
     expect(page.locator('input[value="option-4"]')).toBeChecked()
+})
+
+test.only('Verify Radio buttons functionality in playwright',async({page})=>{
+    await page.goto('https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html')
+    await page.check('[value="green"]')
+    let radio = await page.$eval('[value="green"]',(el)=>el.checked)
+    assert.strictEqual(radio,true)
+    await page.locator('[value="purple"]').check()
+    await expect(page.locator('[value="purple"]')).toBeChecked()
+    let radio2 = await page.$eval('[value="yellow"]',(el) => el.checked)
+    assert.strictEqual(radio2,false)
+    await expect(page.locator('[value="yellow"]')).not.toBeChecked()
 })
